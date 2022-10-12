@@ -1,5 +1,5 @@
-#ifndef INOTIFIER_H
-#define INOTIFIER_H
+#ifndef INOTIFIERAUTHENTICATION_H
+#define INOTIFIERAUTHENTICATION_H
 
 /**
  * @brief Enum with possible return from interface functions.
@@ -7,7 +7,7 @@
  * - NOTIFIER_OK:                    Operation was successful.
  * - NOTIFIER_ERROR:                 Generic error.
  */
-enum class NotifierOperationResult
+enum class NotifierAuthenticationOperationResult
 {
     NOTIFIER_OK = 0,
     NOTIFIER_ERROR
@@ -16,20 +16,20 @@ enum class NotifierOperationResult
 /**
  * @brief Enum with possible TFTP notification events.
  * Possible events are:
- * - NOTIFIER_EVENT_TFTP_SECTION_CLOSED:    TFTP section closed.
- * - NOTIFIER_EVENT_UNKNOWN:                Unknown event.
+ * - NOTIFIER_AUTHENTICATION_EVENT_TFTP_SECTION_CLOSED:    TFTP section closed.
+ * - NOTIFIER_AUTHENTICATION_EVENT_UNKNOWN:                Unknown event.
  */
-enum class NotifierEventType
+enum class NotifierAuthenticationEventType
 {
-    NOTIFIER_EVENT_TFTP_SECTION_CLOSED,
-    NOTIFIER_EVENT_UNKNOWN
+    NOTIFIER_AUTHENTICATION_EVENT_TFTP_SECTION_CLOSED,
+    NOTIFIER_AUTHENTICATION_EVENT_UNKNOWN
 };
 
 /**
  * @brief Interface for classes that need to be notified when a
  *        TFTP section has changed.
  */
-class INotifier
+class INotifierAuthentication
 {
 public:
     /**
@@ -40,7 +40,7 @@ public:
      * @return NOTIFIER_OK if success.
      * @return NOTIFIER_ERROR otherwise.
      */
-    virtual NotifierOperationResult notify(NotifierEventType event) = 0;
+    virtual NotifierAuthenticationOperationResult notify(NotifierAuthenticationEventType event) = 0;
 };
 
-#endif // INOTIFIER_H
+#endif // INOTIFIERAUTHENTICATION_H

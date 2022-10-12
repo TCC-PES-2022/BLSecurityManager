@@ -5,13 +5,13 @@
 #include <memory>
 #include <vector>
 
-#include "ISerializable.h"
+#include "ISerializableAuthentication.h"
 #include "IFileAuthentication.h"
 #include <cjson/cJSON.h>
 
 #define PROTOCOL_VERSION_SIZE static_cast<size_t>(2) // bytes
 
-class BaseAuthenticationFile : public ISerializable, public IFileAuthentication
+class BaseAuthenticationFile : public ISerializableAuthentication, public IFileAuthentication
 {
 public:
         BaseAuthenticationFile(std::string fileName = std::string(""),
@@ -24,10 +24,10 @@ public:
          *
          * @param[out] protocolVersion Protocol Version.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getProtocolVersion(
+        FileAuthenticationOperationResult getProtocolVersion(
             std::string &protocolVersion);
 
         /**
@@ -35,10 +35,10 @@ public:
          *
          * @param[out] fileLength File Length.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getFileLength(
+        FileAuthenticationOperationResult getFileLength(
             uint32_t &fileLength);
 
         /**
@@ -46,24 +46,24 @@ public:
          *
          * @param[out] fileName File Name.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        virtual FileOperationResult getFileName(
+        virtual FileAuthenticationOperationResult getFileName(
             std::string &fileName);
 
-        FileOperationResult getFileSize(size_t &fileSize) override;
+        FileAuthenticationOperationResult getFileSize(size_t &fileSize) override;
 
-        SerializableOperationResult serialize(
+        SerializableAuthenticationOperationResult serialize(
             std::shared_ptr<std::vector<uint8_t>> &data) override;
 
-        SerializableOperationResult deserialize(
+        SerializableAuthenticationOperationResult deserialize(
             std::shared_ptr<std::vector<uint8_t>> &data) override;
 
-        SerializableOperationResult serializeJSON(
+        SerializableAuthenticationOperationResult serializeJSON(
             std::string &data) override;
 
-        SerializableOperationResult deserializeJSON(
+        SerializableAuthenticationOperationResult deserializeJSON(
             std::string &data) override;
 
 protected:

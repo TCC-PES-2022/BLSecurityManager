@@ -6,13 +6,13 @@
 /**
  * @brief Enum with possible return from interface functions.
  * Possible return values are:
- * - FILE_OPERATION_OK:                    Operation was successful.
- * - FILE_OPERATION_ERROR:                 Generic error.
+ * - FILE_AUTHENTICATION_OPERATION_OK:                    Operation was successful.
+ * - FILE_AUTHENTICATION_OPERATION_ERROR:                 Generic error.
  */
-enum class FileOperationResult
+enum class FileAuthenticationOperationResult
 {
-    FILE_OPERATION_OK = 0,
-    FILE_OPERATION_ERROR
+    FILE_AUTHENTICATION_OPERATION_OK = 0,
+    FILE_AUTHENTICATION_OPERATION_ERROR
 };
 
 class IFileAuthentication
@@ -29,10 +29,10 @@ protected:
      *
      * @param[out] fileSize File size in bytes.
      *
-     * @return FILE_OPERATION_OK if success.
-     * @return FILE_OPERATION_ERROR otherwise.
+     * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+     * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
      */
-    virtual FileOperationResult getFileSize(size_t &fileSize) = 0;
+    virtual FileAuthenticationOperationResult getFileSize(size_t &fileSize) = 0;
 };
 
 #endif // FILEAUTHENTICATION_H

@@ -3,7 +3,9 @@
 
 #include "BaseAuthenticationFile.h"
 
-#define MAX_PUBLIC_KEY_SIZE static_cast<size_t>(512)         // bytes
+//TODO: MAX_CRYPTOGRAPHIC_KEY_SIZE should be 512, but it's 65535 for now, as
+//      we're sending the whole S-expression, not only the key.
+#define MAX_CRYPTOGRAPHIC_KEY_SIZE static_cast<size_t>(65535)  // bytes
 #define MAX_STATUS_DESCRIPTION_SIZE static_cast<size_t>(255) // bytes
 
 /*
@@ -35,10 +37,10 @@ public:
          *
          * @param[in] operationAcceptanceStatusCode Operation Acceptance Status Code.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult setOperationAcceptanceStatusCode(
+        FileAuthenticationOperationResult setOperationAcceptanceStatusCode(
             uint16_t operationAcceptanceStatusCode);
 
         /**
@@ -46,54 +48,54 @@ public:
          *
          * @param[out] operationAcceptanceStatusCode Operation Acceptance Status Code.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getOperationAcceptanceStatusCode(
+        FileAuthenticationOperationResult getOperationAcceptanceStatusCode(
             uint16_t &operationAcceptanceStatusCode);
 
         /**
-         * @brief Get Public Key Length.
+         * @brief Get Cryptographic Key length
          *
-         * @param[out] publicKeyLength Public Key Length.
+         * @param[out] cryptographicKeyLength Cryptographic Key Length.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getPublicKeyLength(
-            uint16_t &publicKeyLength);
+        FileAuthenticationOperationResult getCryptographicKeyLength(
+            uint16_t &cryptographicKeyLength);
 
         /**
-         * @brief Set Public Key.
+         * @brief Set Cryptographic Key
          *
-         * @param[in] publicKey Public Key.
+         * @param[in] cryptographicKey Cryptographic Key.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult setPublicKey(
-            std::vector<uint8_t> &publicKey);
+        FileAuthenticationOperationResult setCryptographicKey(
+            std::vector<uint8_t> &cryptographicKey);
 
         /**
-         * @brief Get Public Key.
+         * @brief Get Cryptographic Key.
          *
-         * @param[out] publicKey Public Key.
+         * @param[out] cryptographicKey Cryptographic Key.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getPublicKey(
-            std::vector<uint8_t> &publicKey);
+        FileAuthenticationOperationResult getCryptographicKey(
+            std::vector<uint8_t> &cryptographicKey);
 
         /**
          * @brief Get Status Description Length
          *
          * @param[out] setStatusDescriptionLength Status Description Length.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getStatusDescriptionLength(
+        FileAuthenticationOperationResult getStatusDescriptionLength(
             uint8_t &statusDescriptionLength);
 
         /**
@@ -101,10 +103,10 @@ public:
          *
          * @param[in] statusDescription Status Description.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult setStatusDescription(
+        FileAuthenticationOperationResult setStatusDescription(
             std::string statusDescription);
 
         /**
@@ -112,30 +114,30 @@ public:
          *
          * @param[out] statusDescription Status Description Length.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getStatusDescription(
+        FileAuthenticationOperationResult getStatusDescription(
             std::string &statusDescription);
 
-        FileOperationResult getFileSize(size_t &fileSize) override;
+        FileAuthenticationOperationResult getFileSize(size_t &fileSize) override;
 
-        SerializableOperationResult serialize(
+        SerializableAuthenticationOperationResult serialize(
             std::shared_ptr<std::vector<uint8_t>> &data) override;
 
-        SerializableOperationResult deserialize(
+        SerializableAuthenticationOperationResult deserialize(
             std::shared_ptr<std::vector<uint8_t>> &data) override;
 
-        SerializableOperationResult serializeJSON(
+        SerializableAuthenticationOperationResult serializeJSON(
             std::string &data) override;
 
-        SerializableOperationResult deserializeJSON(
+        SerializableAuthenticationOperationResult deserializeJSON(
             std::string &data) override;
 
 private:
         uint16_t operationAcceptanceStatusCode;
-        uint16_t publicKeyLength;
-        uint8_t publicKey[MAX_PUBLIC_KEY_SIZE];
+        uint16_t cryptographicKeyLength;
+        uint8_t cryptographicKey[MAX_CRYPTOGRAPHIC_KEY_SIZE];
         uint8_t statusDescriptionLength;
         char statusDescription[MAX_STATUS_DESCRIPTION_SIZE];
 };

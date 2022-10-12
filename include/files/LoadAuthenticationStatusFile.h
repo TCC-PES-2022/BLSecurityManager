@@ -55,7 +55,7 @@
  */
 #define STATUS_AUTHENTICATION_HEAD_FILE_FAILED static_cast<uint16_t>(0x1007)
 
-class LoadAuthenticationStatusHeaderFile : public ISerializable, public IFileAuthentication
+class LoadAuthenticationStatusHeaderFile : public ISerializableAuthentication, public IFileAuthentication
 {
 public:
         LoadAuthenticationStatusHeaderFile();
@@ -67,10 +67,10 @@ public:
          *
          * @param[in] headerFileName Header File Name.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult setHeaderFileName(
+        FileAuthenticationOperationResult setHeaderFileName(
             std::string headerFileName);
 
         /**
@@ -78,10 +78,10 @@ public:
          *
          * @param[out] headerFileName Header File Name.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getHeaderFileName(
+        FileAuthenticationOperationResult getHeaderFileName(
             std::string &headerFileName);
 
         /**
@@ -89,10 +89,10 @@ public:
          *
          * @param[out] headerFileNameLength Header File Name Length.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getHeaderFileNameLength(
+        FileAuthenticationOperationResult getHeaderFileNameLength(
             uint8_t &headerFileNameLength);
 
         /**
@@ -100,30 +100,30 @@ public:
          *
          * @param[in] loadPartNumber Part Number.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult setLoadPartNumberName(std::string loadPartNumber);
+        FileAuthenticationOperationResult setLoadPartNumberName(std::string loadPartNumber);
 
         /**
          * @brief Get Load Part Number Name
          *
          * @param[out] loadPartNumber Part Number.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getLoadPartNumberName(std::string &loadPartNumber);
+        FileAuthenticationOperationResult getLoadPartNumberName(std::string &loadPartNumber);
 
         /**
          * @brief Get Load Part Number Name Length
          *
          * @param[out] loadPartNumberLength Part Number Length.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getLoadPartNumberNameLength(
+        FileAuthenticationOperationResult getLoadPartNumberNameLength(
             uint8_t &loadPartNumberLength);
 
         /**
@@ -131,50 +131,50 @@ public:
          *
          * @param[in] loadRatio Load Ratio.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult setLoadRatio(uint32_t loadRatio);
+        FileAuthenticationOperationResult setLoadRatio(uint32_t loadRatio);
 
         /**
          * @brief Get Load Ratio
          *
          * @param[out] loadRatio Load Ratio.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getLoadRatio(uint32_t &loadRatio);
+        FileAuthenticationOperationResult getLoadRatio(uint32_t &loadRatio);
 
         /**
          * @brief Set Load Status
          *
          * @param[in] loadStatus Load Status.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult setLoadStatus(uint16_t loadStatus);
+        FileAuthenticationOperationResult setLoadStatus(uint16_t loadStatus);
 
         /**
          * @brief Get Load Status
          *
          * @param[out] loadStatus Load Status.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getLoadStatus(uint16_t &loadStatus);
+        FileAuthenticationOperationResult getLoadStatus(uint16_t &loadStatus);
 
         /**
          * @brief Set Load Status Description
          *
          * @param[in] loadStatusDescription Load Status Description.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult
+        FileAuthenticationOperationResult
         setLoadStatusDescription(std::string loadStatusDescription);
 
         /**
@@ -182,10 +182,10 @@ public:
          *
          * @param[out] loadStatusDescription Load Status Description.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult
+        FileAuthenticationOperationResult
         getLoadStatusDescription(std::string &loadStatusDescription);
 
         /**
@@ -193,24 +193,24 @@ public:
          *
          * @param[out] loadStatusDescriptionLength Load Status Description Length.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult
+        FileAuthenticationOperationResult
         getLoadStatusDescriptionLength(uint8_t &loadStatusDescriptionLength);
 
-        FileOperationResult getFileSize(size_t &fileSize) override;
+        FileAuthenticationOperationResult getFileSize(size_t &fileSize) override;
 
-        SerializableOperationResult serialize(
+        SerializableAuthenticationOperationResult serialize(
             std::shared_ptr<std::vector<uint8_t>> &data) override;
 
-        SerializableOperationResult deserialize(
+        SerializableAuthenticationOperationResult deserialize(
             std::shared_ptr<std::vector<uint8_t>> &data) override;
 
-        SerializableOperationResult serializeJSON(
+        SerializableAuthenticationOperationResult serializeJSON(
             std::string &data) override;
 
-        SerializableOperationResult deserializeJSON(
+        SerializableAuthenticationOperationResult deserializeJSON(
             std::string &data) override;
 
 private:
@@ -239,10 +239,10 @@ public:
          *
          * @param[in] authenticationOperationStatusCode Load Authentication Operation Status Code.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult setAuthenticationOperationStatusCode(
+        FileAuthenticationOperationResult setAuthenticationOperationStatusCode(
             uint16_t authenticationOperationStatusCode);
 
         /**
@@ -250,10 +250,10 @@ public:
          *
          * @param[out] authenticationOperationStatusCode Load Authentication Operation Status Code.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getAuthenticationOperationStatusCode(
+        FileAuthenticationOperationResult getAuthenticationOperationStatusCode(
             uint16_t &authenticationOperationStatusCode);
 
         /**
@@ -261,10 +261,10 @@ public:
          *
          * @param[in] authenticationStatusDescription Load Authentication Status Description.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult setAuthenticationStatusDescription(
+        FileAuthenticationOperationResult setAuthenticationStatusDescription(
             std::string loadAuthenticationStatusDescription);
 
         /**
@@ -272,10 +272,10 @@ public:
          *
          * @param[out] authenticationStatusDescription Load Authentication Status Description.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getAuthenticationStatusDescription(
+        FileAuthenticationOperationResult getAuthenticationStatusDescription(
             std::string &loadAuthenticationStatusDescription);
 
         /**
@@ -283,10 +283,10 @@ public:
          *
          * @param[out] authenticationStatusDescriptionLength Load Authentication Status Description Length.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getAuthenticationStatusDescriptionLength(
+        FileAuthenticationOperationResult getAuthenticationStatusDescriptionLength(
             uint8_t &loadAuthenticationStatusDescriptionLength);
 
         /**
@@ -294,90 +294,90 @@ public:
          *
          * @param[in] counter Status counter
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult setCounter(uint16_t counter);
+        FileAuthenticationOperationResult setCounter(uint16_t counter);
 
         /**
          * @brief Get Counter
          *
          * @param[out] counter Status counter
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getCounter(uint16_t &counter);
+        FileAuthenticationOperationResult getCounter(uint16_t &counter);
 
         /**
          * @brief Set Exception Timer
          *
          * @param[in] exceptionTimer Exception Timer
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult setExceptionTimer(uint16_t exceptionTimer);
+        FileAuthenticationOperationResult setExceptionTimer(uint16_t exceptionTimer);
 
         /**
          * @brief Get Exception Timer
          *
          * @param[out] exceptionTimer Exception Timer
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getExceptionTimer(uint16_t &exceptionTimer);
+        FileAuthenticationOperationResult getExceptionTimer(uint16_t &exceptionTimer);
 
         /**
          * @brief Set Estimated Time
          *
          * @param[in] estimatedTime Estimated Time
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult setEstimatedTime(uint16_t estimatedTime);
+        FileAuthenticationOperationResult setEstimatedTime(uint16_t estimatedTime);
 
         /**
          * @brief Get Estimated Time
          *
          * @param[out] estimatedTime Estimated Time
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getEstimatedTime(uint16_t &estimatedTime);
+        FileAuthenticationOperationResult getEstimatedTime(uint16_t &estimatedTime);
 
         /**
          * @brief Set Load Ratio
          *
          * @param[in] loadListRatio Load List Ratio
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult setLoadListRatio(uint32_t loadListRatio);
+        FileAuthenticationOperationResult setLoadListRatio(uint32_t loadListRatio);
 
         /**
          * @brief Get Load Ratio
          *
          * @param[out] loadListRatio Load List Ratio
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getLoadListRatio(uint32_t &loadListRatio);
+        FileAuthenticationOperationResult getLoadListRatio(uint32_t &loadListRatio);
 
         /**
          * @brief Add header file to the list.
          *
          * @param[in] headerFile Header file.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult addHeaderFile(
+        FileAuthenticationOperationResult addHeaderFile(
             LoadAuthenticationStatusHeaderFile &headerFile);
 
         /**
@@ -385,24 +385,24 @@ public:
          *
          * @param[out] headerFiles List of header files.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getHeaderFiles(
+        FileAuthenticationOperationResult getHeaderFiles(
             std::shared_ptr<std::vector<LoadAuthenticationStatusHeaderFile>> &headerFiles);
 
-        FileOperationResult getFileSize(size_t &fileSize) override;
+        FileAuthenticationOperationResult getFileSize(size_t &fileSize) override;
 
-        SerializableOperationResult serialize(
+        SerializableAuthenticationOperationResult serialize(
             std::shared_ptr<std::vector<uint8_t>> &data) override;
 
-        SerializableOperationResult deserialize(
+        SerializableAuthenticationOperationResult deserialize(
             std::shared_ptr<std::vector<uint8_t>> &data) override;
 
-        SerializableOperationResult serializeJSON(
+        SerializableAuthenticationOperationResult serializeJSON(
             std::string &data) override;
 
-        SerializableOperationResult deserializeJSON(
+        SerializableAuthenticationOperationResult deserializeJSON(
             std::string &data) override;
 
 private:

@@ -12,14 +12,14 @@ TEST(AuthenticationFilesTest, InitializationFileSerialization)
 
     initializationFile.setOperationAcceptanceStatusCode(0x0001);
     initializationFile.setStatusDescription("Test file");
-    std::vector<uint8_t> publicKey = {
+    std::vector<uint8_t> cryptographicKey = {
         0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
         0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10};
-    initializationFile.setPublicKey(publicKey);
+    initializationFile.setCryptographicKey(cryptographicKey);
 
     std::shared_ptr<std::vector<uint8_t>>
         data = std::make_shared<std::vector<uint8_t>>();
-    ASSERT_EQ(initializationFile.serialize(data), SerializableOperationResult::SERIALIZABLE_OK);
+    ASSERT_EQ(initializationFile.serialize(data), SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK);
     ASSERT_EQ(data->size(), 37);
     ASSERT_EQ(data->at(0), 0);
     ASSERT_EQ(data->at(1), 0);
@@ -71,7 +71,7 @@ TEST(AuthenticationFilesTest, DISABLED_InitializationFileSerializationDescriptio
     initializationFile.setStatusDescription(description);
 
     std::shared_ptr<std::vector<uint8_t>> data = std::make_shared<std::vector<uint8_t>>();
-    ASSERT_EQ(initializationFile.serialize(data), SerializableOperationResult::SERIALIZABLE_OK);
+    ASSERT_EQ(initializationFile.serialize(data), SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK);
     EXPECT_EQ(data->size(), 264);
     EXPECT_EQ(data->at(0), 0);
     EXPECT_EQ(data->at(1), 0);
@@ -89,7 +89,7 @@ TEST(AuthenticationFilesTest, DISABLED_InitializationFileSerializationDescriptio
     EXPECT_EQ(data->at(263), '\0');
 }
 
-TEST(AuthenticationFilesTest, DISABLED_InitializationFilePublicKeyOverflow)
+TEST(AuthenticationFilesTest, DISABLED_InitializationFileCryptographicKeyOverflow)
 {
     FAIL() << "Not implemented";
 }
@@ -135,52 +135,52 @@ TEST(AuthenticationFilesTest, InitializationFileDeserialization)
     data->push_back('l');
     data->push_back('e');
     data->push_back('\0');
-    ASSERT_EQ(initializationFile.deserialize(data), SerializableOperationResult::SERIALIZABLE_OK);
+    ASSERT_EQ(initializationFile.deserialize(data), SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK);
 
     uint32_t fileLength = 0;
-    ASSERT_EQ(initializationFile.getFileLength(fileLength), FileOperationResult::FILE_OPERATION_OK);
+    ASSERT_EQ(initializationFile.getFileLength(fileLength), FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
     std::string protocolVersion = "";
-    ASSERT_EQ(initializationFile.getProtocolVersion(protocolVersion), FileOperationResult::FILE_OPERATION_OK);
+    ASSERT_EQ(initializationFile.getProtocolVersion(protocolVersion), FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
     uint16_t operationAcceptanceStatusCode = 0;
-    ASSERT_EQ(initializationFile.getOperationAcceptanceStatusCode(operationAcceptanceStatusCode), FileOperationResult::FILE_OPERATION_OK);
+    ASSERT_EQ(initializationFile.getOperationAcceptanceStatusCode(operationAcceptanceStatusCode), FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
-    uint16_t publicKeylength = 0;
-    ASSERT_EQ(initializationFile.getPublicKeyLength(publicKeylength), FileOperationResult::FILE_OPERATION_OK);
+    uint16_t cryptographicKeylength = 0;
+    ASSERT_EQ(initializationFile.getCryptographicKeyLength(cryptographicKeylength), FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
-    std::vector<uint8_t> publicKey;
-    ASSERT_EQ(initializationFile.getPublicKey(publicKey), FileOperationResult::FILE_OPERATION_OK);
+    std::vector<uint8_t> cryptographicKey;
+    ASSERT_EQ(initializationFile.getCryptographicKey(cryptographicKey), FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
     uint8_t statusDescriptionLength = 0;
-    ASSERT_EQ(initializationFile.getStatusDescriptionLength(statusDescriptionLength), FileOperationResult::FILE_OPERATION_OK);
+    ASSERT_EQ(initializationFile.getStatusDescriptionLength(statusDescriptionLength), FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
     std::string statusDescription = "";
-    ASSERT_EQ(initializationFile.getStatusDescription(statusDescription), FileOperationResult::FILE_OPERATION_OK);
+    ASSERT_EQ(initializationFile.getStatusDescription(statusDescription), FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
     ASSERT_EQ(fileLength, 37);
     ASSERT_EQ(protocolVersion, std::string("A4"));
     ASSERT_EQ(operationAcceptanceStatusCode, 0x0001);
-    ASSERT_EQ(publicKeylength, 0x0010);
-    ASSERT_EQ(publicKey.size(), 16);
+    ASSERT_EQ(cryptographicKeylength, 0x0010);
+    ASSERT_EQ(cryptographicKey.size(), 16);
 
     // TODO: Do we have an assert for vector?
-    ASSERT_EQ(publicKey.at(0), 0x01);
-    ASSERT_EQ(publicKey.at(1), 0x02);
-    ASSERT_EQ(publicKey.at(2), 0x03);
-    ASSERT_EQ(publicKey.at(3), 0x04);
-    ASSERT_EQ(publicKey.at(4), 0x05);
-    ASSERT_EQ(publicKey.at(5), 0x06);
-    ASSERT_EQ(publicKey.at(6), 0x07);
-    ASSERT_EQ(publicKey.at(7), 0x08);
-    ASSERT_EQ(publicKey.at(8), 0x09);
-    ASSERT_EQ(publicKey.at(9), 0x0A);
-    ASSERT_EQ(publicKey.at(10), 0x0B);
-    ASSERT_EQ(publicKey.at(11), 0x0C);
-    ASSERT_EQ(publicKey.at(12), 0x0D);
-    ASSERT_EQ(publicKey.at(13), 0x0E);
-    ASSERT_EQ(publicKey.at(14), 0x0F);
-    ASSERT_EQ(publicKey.at(15), 0x10);
+    ASSERT_EQ(cryptographicKey.at(0), 0x01);
+    ASSERT_EQ(cryptographicKey.at(1), 0x02);
+    ASSERT_EQ(cryptographicKey.at(2), 0x03);
+    ASSERT_EQ(cryptographicKey.at(3), 0x04);
+    ASSERT_EQ(cryptographicKey.at(4), 0x05);
+    ASSERT_EQ(cryptographicKey.at(5), 0x06);
+    ASSERT_EQ(cryptographicKey.at(6), 0x07);
+    ASSERT_EQ(cryptographicKey.at(7), 0x08);
+    ASSERT_EQ(cryptographicKey.at(8), 0x09);
+    ASSERT_EQ(cryptographicKey.at(9), 0x0A);
+    ASSERT_EQ(cryptographicKey.at(10), 0x0B);
+    ASSERT_EQ(cryptographicKey.at(11), 0x0C);
+    ASSERT_EQ(cryptographicKey.at(12), 0x0D);
+    ASSERT_EQ(cryptographicKey.at(13), 0x0E);
+    ASSERT_EQ(cryptographicKey.at(14), 0x0F);
+    ASSERT_EQ(cryptographicKey.at(15), 0x10);
 
     ASSERT_EQ(statusDescriptionLength, 0x0A);
     ASSERT_EQ(statusDescription, std::string("Test file"));
@@ -190,21 +190,21 @@ TEST(AuthenticationFilesTest, InitializationFileSerializationJSON)
 {
     InitializationAuthenticationFile initializationFile("TEST_FILE.TEST", "A4");
     initializationFile.setOperationAcceptanceStatusCode(0x0001);
-    std::vector<uint8_t> publicKey = {
+    std::vector<uint8_t> cryptographicKey = {
         0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
         0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10};
-    initializationFile.setPublicKey(publicKey);
+    initializationFile.setCryptographicKey(cryptographicKey);
     initializationFile.setStatusDescription("Test file");
 
     std::string data("");
-    ASSERT_EQ(initializationFile.serializeJSON(data), SerializableOperationResult::SERIALIZABLE_OK);
+    ASSERT_EQ(initializationFile.serializeJSON(data), SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK);
     ASSERT_EQ(data, "{"
                     "\"fileName\":\"TEST_FILE.TEST\","
                     "\"fileLength\":37,"
                     "\"protocolVersion\":\"A4\","
                     "\"operationAcceptanceStatusCode\":1,"
-                    "\"publicKeyLength\":16,"
-                    "\"publicKey\":\"0102030405060708090a0b0c0d0e0f10\","
+                    "\"cryptographicKeyLength\":16,"
+                    "\"cryptographicKey\":\"0102030405060708090a0b0c0d0e0f10\","
                     "\"statusDescriptionLength\":10,"
                     "\"statusDescription\":\"Test file\""
                     "}");
@@ -218,57 +218,57 @@ TEST(AuthenticationFilesTest, InitializationFileDeserializationJSON)
                      "\"fileLength\":37,"
                      "\"protocolVersion\":\"A4\","
                      "\"operationAcceptanceStatusCode\":1,"
-                     "\"publicKeyLength\":16,"
-                     "\"publicKey\":\"0102030405060708090a0b0c0d0e0f10\","
+                     "\"cryptographicKeyLength\":16,"
+                     "\"cryptographicKey\":\"0102030405060708090a0b0c0d0e0f10\","
                      "\"statusDescriptionLength\":10,"
                      "\"statusDescription\":\"Test file\""
                      "}");
-    ASSERT_EQ(initializationFile.deserializeJSON(data), SerializableOperationResult::SERIALIZABLE_OK);
+    ASSERT_EQ(initializationFile.deserializeJSON(data), SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK);
 
     uint32_t fileLength = 0;
-    ASSERT_EQ(initializationFile.getFileLength(fileLength), FileOperationResult::FILE_OPERATION_OK);
+    ASSERT_EQ(initializationFile.getFileLength(fileLength), FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
     std::string protocolVersion = "";
-    ASSERT_EQ(initializationFile.getProtocolVersion(protocolVersion), FileOperationResult::FILE_OPERATION_OK);
+    ASSERT_EQ(initializationFile.getProtocolVersion(protocolVersion), FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
     uint16_t operationAcceptanceStatusCode = 0;
-    ASSERT_EQ(initializationFile.getOperationAcceptanceStatusCode(operationAcceptanceStatusCode), FileOperationResult::FILE_OPERATION_OK);
+    ASSERT_EQ(initializationFile.getOperationAcceptanceStatusCode(operationAcceptanceStatusCode), FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
-    uint16_t publicKeylength = 0;
-    ASSERT_EQ(initializationFile.getPublicKeyLength(publicKeylength), FileOperationResult::FILE_OPERATION_OK);
+    uint16_t cryptographicKeylength = 0;
+    ASSERT_EQ(initializationFile.getCryptographicKeyLength(cryptographicKeylength), FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
-    std::vector<uint8_t> publicKey;
-    ASSERT_EQ(initializationFile.getPublicKey(publicKey), FileOperationResult::FILE_OPERATION_OK);
+    std::vector<uint8_t> cryptographicKey;
+    ASSERT_EQ(initializationFile.getCryptographicKey(cryptographicKey), FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
     uint8_t statusDescriptionLength = 0;
-    ASSERT_EQ(initializationFile.getStatusDescriptionLength(statusDescriptionLength), FileOperationResult::FILE_OPERATION_OK);
+    ASSERT_EQ(initializationFile.getStatusDescriptionLength(statusDescriptionLength), FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
     std::string statusDescription = "";
-    ASSERT_EQ(initializationFile.getStatusDescription(statusDescription), FileOperationResult::FILE_OPERATION_OK);
+    ASSERT_EQ(initializationFile.getStatusDescription(statusDescription), FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
     ASSERT_EQ(fileLength, 37);
     ASSERT_EQ(protocolVersion, std::string("A4"));
     ASSERT_EQ(operationAcceptanceStatusCode, 0x0001);
-    ASSERT_EQ(publicKeylength, 0x0010);
-    ASSERT_EQ(publicKey.size(), 16);
+    ASSERT_EQ(cryptographicKeylength, 0x0010);
+    ASSERT_EQ(cryptographicKey.size(), 16);
 
     // TODO: Do we have an assert for vector?
-    ASSERT_EQ(publicKey.at(0), 0x01);
-    ASSERT_EQ(publicKey.at(1), 0x02);
-    ASSERT_EQ(publicKey.at(2), 0x03);
-    ASSERT_EQ(publicKey.at(3), 0x04);
-    ASSERT_EQ(publicKey.at(4), 0x05);
-    ASSERT_EQ(publicKey.at(5), 0x06);
-    ASSERT_EQ(publicKey.at(6), 0x07);
-    ASSERT_EQ(publicKey.at(7), 0x08);
-    ASSERT_EQ(publicKey.at(8), 0x09);
-    ASSERT_EQ(publicKey.at(9), 0x0A);
-    ASSERT_EQ(publicKey.at(10), 0x0B);
-    ASSERT_EQ(publicKey.at(11), 0x0C);
-    ASSERT_EQ(publicKey.at(12), 0x0D);
-    ASSERT_EQ(publicKey.at(13), 0x0E);
-    ASSERT_EQ(publicKey.at(14), 0x0F);
-    ASSERT_EQ(publicKey.at(15), 0x10);
+    ASSERT_EQ(cryptographicKey.at(0), 0x01);
+    ASSERT_EQ(cryptographicKey.at(1), 0x02);
+    ASSERT_EQ(cryptographicKey.at(2), 0x03);
+    ASSERT_EQ(cryptographicKey.at(3), 0x04);
+    ASSERT_EQ(cryptographicKey.at(4), 0x05);
+    ASSERT_EQ(cryptographicKey.at(5), 0x06);
+    ASSERT_EQ(cryptographicKey.at(6), 0x07);
+    ASSERT_EQ(cryptographicKey.at(7), 0x08);
+    ASSERT_EQ(cryptographicKey.at(8), 0x09);
+    ASSERT_EQ(cryptographicKey.at(9), 0x0A);
+    ASSERT_EQ(cryptographicKey.at(10), 0x0B);
+    ASSERT_EQ(cryptographicKey.at(11), 0x0C);
+    ASSERT_EQ(cryptographicKey.at(12), 0x0D);
+    ASSERT_EQ(cryptographicKey.at(13), 0x0E);
+    ASSERT_EQ(cryptographicKey.at(14), 0x0F);
+    ASSERT_EQ(cryptographicKey.at(15), 0x10);
 
     ASSERT_EQ(statusDescriptionLength, 0x0A);
     ASSERT_EQ(statusDescription, std::string("Test file"));
@@ -278,6 +278,6 @@ TEST(AuthenticationFilesTest, InitializationFileFileName)
 {
     BaseAuthenticationFile baseFile("TEST_FILE.TEST");
     std::string fileName = "";
-    ASSERT_EQ(baseFile.getFileName(fileName), FileOperationResult::FILE_OPERATION_OK);
+    ASSERT_EQ(baseFile.getFileName(fileName), FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(fileName, "TEST_FILE.TEST");
 }

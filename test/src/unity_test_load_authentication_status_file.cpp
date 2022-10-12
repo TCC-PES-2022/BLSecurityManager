@@ -8,85 +8,85 @@ TEST(AuthenticationFilesTest, LoadAuthenticationStatusFileAddHeaderFile)
 
     LoadAuthenticationStatusHeaderFile headerFile1;
     ASSERT_EQ(headerFile1.setHeaderFileName("TEST_FILE1.TEST"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile1.setLoadPartNumberName("TEST_PART_NUMBER1"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile1.setLoadRatio(42),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile1.setLoadStatus(0x4242),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile1.setLoadStatusDescription("TEST_STATUS_DESCRIPTION1"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadAuthenticationStatusFile.addHeaderFile(headerFile1),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
     LoadAuthenticationStatusHeaderFile headerFile2;
     ASSERT_EQ(headerFile2.setHeaderFileName("TEST_FILE2.TEST"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile2.setLoadPartNumberName("TEST_PART_NUMBER2"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile2.setLoadRatio(43),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile2.setLoadStatus(0x4343),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile2.setLoadStatusDescription("TEST_STATUS_DESCRIPTION2"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadAuthenticationStatusFile.addHeaderFile(headerFile2),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
     std::shared_ptr<std::vector<LoadAuthenticationStatusHeaderFile>> headerFiles;
     ASSERT_EQ(loadAuthenticationStatusFile.getHeaderFiles(headerFiles),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFiles->size(), 2);
 
     std::string headerFileName1 = "";
     ASSERT_EQ(headerFiles->at(0).getHeaderFileName(headerFileName1),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFileName1, "TEST_FILE1.TEST");
 
     std::string loadPartNumberName1 = "";
     ASSERT_EQ(headerFiles->at(0).getLoadPartNumberName(loadPartNumberName1),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadPartNumberName1, "TEST_PART_NUMBER1");
 
     uint32_t loadRatio1 = 0;
     ASSERT_EQ(headerFiles->at(0).getLoadRatio(loadRatio1),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadRatio1, 42);
 
     uint16_t loadStatus1 = 0;
     ASSERT_EQ(headerFiles->at(0).getLoadStatus(loadStatus1),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadStatus1, 0x4242);
 
     std::string loadStatusDescription1 = "";
     ASSERT_EQ(headerFiles->at(0).getLoadStatusDescription(loadStatusDescription1),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadStatusDescription1, "TEST_STATUS_DESCRIPTION1");
 
     std::string headerFileName2 = "";
     ASSERT_EQ(headerFiles->at(1).getHeaderFileName(headerFileName2),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFileName2, "TEST_FILE2.TEST");
 
     std::string loadPartNumberName2 = "";
     ASSERT_EQ(headerFiles->at(1).getLoadPartNumberName(loadPartNumberName2),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadPartNumberName2, "TEST_PART_NUMBER2");
 
     uint32_t loadRatio2 = 0;
     ASSERT_EQ(headerFiles->at(1).getLoadRatio(loadRatio2),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadRatio2, 43);
 
     uint16_t loadStatus2 = 0;
     ASSERT_EQ(headerFiles->at(1).getLoadStatus(loadStatus2),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadStatus2, 0x4343);
 
     std::string loadStatusDescription2 = "";
     ASSERT_EQ(headerFiles->at(1).getLoadStatusDescription(loadStatusDescription2),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadStatusDescription2, "TEST_STATUS_DESCRIPTION2");
 
 }
@@ -103,49 +103,49 @@ TEST(AuthenticationFilesTest, LoadAuthenticationStatusFileSerialization)
 
     LoadAuthenticationStatusHeaderFile headerFile1;
     ASSERT_EQ(headerFile1.setHeaderFileName("TEST_FILE1.TEST"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile1.setLoadPartNumberName("TEST_PART_NUMBER1"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile1.setLoadRatio(42),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile1.setLoadStatus(0x4242),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile1.setLoadStatusDescription("TEST_STATUS_DESCRIPTION1"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadAuthenticationStatusFile.addHeaderFile(headerFile1),
-            FileOperationResult::FILE_OPERATION_OK);
+            FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
     LoadAuthenticationStatusHeaderFile headerFile2;
     ASSERT_EQ(headerFile2.setHeaderFileName("TEST_FILE2.TEST"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile2.setLoadPartNumberName("TEST_PART_NUMBER2"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile2.setLoadRatio(43),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile2.setLoadStatus(0x4243),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile2.setLoadStatusDescription("TEST_STATUS_DESCRIPTION2"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadAuthenticationStatusFile.addHeaderFile(headerFile2),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
     LoadAuthenticationStatusHeaderFile headerFile3;
     ASSERT_EQ(headerFile3.setHeaderFileName("TEST_FILE3.TEST"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile3.setLoadPartNumberName("TEST_PART_NUMBER3"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile3.setLoadRatio(44),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile3.setLoadStatus(0x4244),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile3.setLoadStatusDescription("TEST_STATUS_DESCRIPTION3"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadAuthenticationStatusFile.addHeaderFile(headerFile3),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
     std::shared_ptr<std::vector<uint8_t>> data = std::make_shared<std::vector<uint8_t>>();
     ASSERT_EQ(loadAuthenticationStatusFile.serialize(data),
-              SerializableOperationResult::SERIALIZABLE_OK);
+              SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK);
     ASSERT_EQ(data->size(), 245);
     ASSERT_EQ(data->at(0), 0);
     ASSERT_EQ(data->at(1), 0);
@@ -386,98 +386,98 @@ TEST(AuthenticationFilesTest, LoadAuthenticationStatusFileDeserialization)
 
     LoadAuthenticationStatusFile loadAuthenticationStatusFile;
     ASSERT_EQ(loadAuthenticationStatusFile.deserialize(data),
-              SerializableOperationResult::SERIALIZABLE_OK);
+              SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK);
 
     uint32_t fileLength = 0;
     ASSERT_EQ(loadAuthenticationStatusFile.getFileLength(fileLength),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(fileLength, 245);
 
     std::string protocolVersion;
     ASSERT_EQ(loadAuthenticationStatusFile.getProtocolVersion(protocolVersion),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(protocolVersion, "A4");
 
     uint16_t authenticationOperationStatusCode = 0;
     ASSERT_EQ(loadAuthenticationStatusFile.getAuthenticationOperationStatusCode(authenticationOperationStatusCode),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(authenticationOperationStatusCode, 0x4141);
 
     uint8_t authenticationStatusDescriptionLength = 0;
     ASSERT_EQ(loadAuthenticationStatusFile.getAuthenticationStatusDescriptionLength(authenticationStatusDescriptionLength),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(authenticationStatusDescriptionLength, 24);
 
     std::string authenticationStatusDescription;
     ASSERT_EQ(loadAuthenticationStatusFile.getAuthenticationStatusDescription(authenticationStatusDescription),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(authenticationStatusDescription, "TEST_STATUS_DESCRIPTION");
 
     uint16_t counter = 0;
     ASSERT_EQ(loadAuthenticationStatusFile.getCounter(counter),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(counter, 72);
 
     uint16_t exceptionTimer = 0;
     ASSERT_EQ(loadAuthenticationStatusFile.getExceptionTimer(exceptionTimer),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(exceptionTimer, 73);
 
     uint16_t estimatedTime = 0;
     ASSERT_EQ(loadAuthenticationStatusFile.getEstimatedTime(estimatedTime),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(estimatedTime, 74);
 
     uint32_t loadListRatio = 0;
     ASSERT_EQ(loadAuthenticationStatusFile.getLoadListRatio(loadListRatio),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadListRatio, 75);
 
     std::shared_ptr <std::vector<LoadAuthenticationStatusHeaderFile>> headerFiles;
     ASSERT_EQ(loadAuthenticationStatusFile.getHeaderFiles(headerFiles),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFiles->size(), 3);
 
     for (int i = 0; i < 3; ++i)
     {
         uint8_t headerFileNameLength = 0;
         ASSERT_EQ(headerFiles->at(i).getHeaderFileNameLength(headerFileNameLength),
-                  FileOperationResult::FILE_OPERATION_OK);
+                  FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
         ASSERT_EQ(headerFileNameLength, 16);
 
         std::string headerFileName;
         ASSERT_EQ(headerFiles->at(i).getHeaderFileName(headerFileName),
-                  FileOperationResult::FILE_OPERATION_OK);
+                  FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
         ASSERT_EQ(headerFileName, "TEST_FILE" + std::to_string(i + 1) + ".TEST");
 
         uint8_t loadPartNumberNameLength = 0;
         ASSERT_EQ(headerFiles->at(i).getLoadPartNumberNameLength(loadPartNumberNameLength),
-                  FileOperationResult::FILE_OPERATION_OK);
+                  FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
         ASSERT_EQ(loadPartNumberNameLength, 18);
 
         std::string loadPartNumberName;
         ASSERT_EQ(headerFiles->at(i).getLoadPartNumberName(loadPartNumberName),
-                  FileOperationResult::FILE_OPERATION_OK);
+                  FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
         ASSERT_EQ(loadPartNumberName, "TEST_PART_NUMBER" + std::to_string(i + 1));
 
         uint32_t loadRatio = 0;
         ASSERT_EQ(headerFiles->at(i).getLoadRatio(loadRatio),
-                  FileOperationResult::FILE_OPERATION_OK);
+                  FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
         ASSERT_EQ(loadRatio, 42 + i);
 
         uint16_t loadStatus = 0;
         ASSERT_EQ(headerFiles->at(i).getLoadStatus(loadStatus),
-                  FileOperationResult::FILE_OPERATION_OK);
+                  FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
         ASSERT_EQ(loadStatus, 0x4242 + i);
 
         uint8_t loadStatusDescriptionLength = 0;
         ASSERT_EQ(headerFiles->at(i).getLoadStatusDescriptionLength(loadStatusDescriptionLength),
-                  FileOperationResult::FILE_OPERATION_OK);
+                  FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
         ASSERT_EQ(loadStatusDescriptionLength, 25);
 
         std::string loadStatusDescription;
         ASSERT_EQ(headerFiles->at(i).getLoadStatusDescription(loadStatusDescription),
-                  FileOperationResult::FILE_OPERATION_OK);
+                  FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
         ASSERT_EQ(loadStatusDescription, "TEST_STATUS_DESCRIPTION" + std::to_string(i + 1));
     }
 }
@@ -494,49 +494,49 @@ TEST(AuthenticationFilesTest, LoadAuthenticationStatusFileSerializationJSON)
 
     LoadAuthenticationStatusHeaderFile headerFile1;
     ASSERT_EQ(headerFile1.setHeaderFileName("TEST_FILE1.TEST"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile1.setLoadPartNumberName("TEST_PART_NUMBER1"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile1.setLoadRatio(42),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile1.setLoadStatus(0x4242),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile1.setLoadStatusDescription("TEST_STATUS_DESCRIPTION1"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadAuthenticationStatusFile.addHeaderFile(headerFile1),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
     LoadAuthenticationStatusHeaderFile headerFile2;
     ASSERT_EQ(headerFile2.setHeaderFileName("TEST_FILE2.TEST"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile2.setLoadPartNumberName("TEST_PART_NUMBER2"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile2.setLoadRatio(43),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile2.setLoadStatus(0x4243),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile2.setLoadStatusDescription("TEST_STATUS_DESCRIPTION2"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadAuthenticationStatusFile.addHeaderFile(headerFile2),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
     LoadAuthenticationStatusHeaderFile headerFile3;
     ASSERT_EQ(headerFile3.setHeaderFileName("TEST_FILE3.TEST"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile3.setLoadPartNumberName("TEST_PART_NUMBER3"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile3.setLoadRatio(44),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile3.setLoadStatus(0x4244),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFile3.setLoadStatusDescription("TEST_STATUS_DESCRIPTION3"),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadAuthenticationStatusFile.addHeaderFile(headerFile3),
-        FileOperationResult::FILE_OPERATION_OK);
+        FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
 
     std::string data;
     ASSERT_EQ(loadAuthenticationStatusFile.serializeJSON(data),
-            SerializableOperationResult::SERIALIZABLE_OK);
+            SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK);
 
     ASSERT_EQ(data, "{"
                     "\"fileName\":\"TEST_FILE.TEST\","
@@ -631,98 +631,98 @@ TEST(AuthenticationFilesTest, LoadAuthenticationStatusFileDeserializationJSON)
 
     LoadAuthenticationStatusFile loadAuthenticationStatusFile;
     ASSERT_EQ(loadAuthenticationStatusFile.deserializeJSON(data),
-            SerializableOperationResult::SERIALIZABLE_OK);
+            SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK);
 
     uint32_t fileLength = 0;
     ASSERT_EQ(loadAuthenticationStatusFile.getFileLength(fileLength),
-            FileOperationResult::FILE_OPERATION_OK);
+            FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(fileLength, 245);
 
     std::string protocolVersion;
     ASSERT_EQ(loadAuthenticationStatusFile.getProtocolVersion(protocolVersion),
-            FileOperationResult::FILE_OPERATION_OK);
+            FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(protocolVersion, "A4");
 
     uint16_t authenticationOperationStatusCode = 0;
     ASSERT_EQ(loadAuthenticationStatusFile.getAuthenticationOperationStatusCode(authenticationOperationStatusCode),
-            FileOperationResult::FILE_OPERATION_OK);
+            FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(authenticationOperationStatusCode, 0x4141);
 
     uint8_t authenticationStatusDescriptionLength = 0;
     ASSERT_EQ(loadAuthenticationStatusFile.getAuthenticationStatusDescriptionLength(authenticationStatusDescriptionLength),
-            FileOperationResult::FILE_OPERATION_OK);
+            FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(authenticationStatusDescriptionLength, 24);
 
     std::string authenticationStatusDescription;
     ASSERT_EQ(loadAuthenticationStatusFile.getAuthenticationStatusDescription(authenticationStatusDescription),
-            FileOperationResult::FILE_OPERATION_OK);
+            FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(authenticationStatusDescription, "TEST_STATUS_DESCRIPTION");
 
     uint16_t counter = 0;
     ASSERT_EQ(loadAuthenticationStatusFile.getCounter(counter),
-            FileOperationResult::FILE_OPERATION_OK);
+            FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(counter, 72);
 
     uint16_t exceptionTimer = 0;
     ASSERT_EQ(loadAuthenticationStatusFile.getExceptionTimer(exceptionTimer),
-            FileOperationResult::FILE_OPERATION_OK);
+            FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(exceptionTimer, 73);
 
     uint16_t estimatedTime = 0;
     ASSERT_EQ(loadAuthenticationStatusFile.getEstimatedTime(estimatedTime),
-            FileOperationResult::FILE_OPERATION_OK);
+            FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(estimatedTime, 74);
 
     uint32_t loadListRatio = 0;
     ASSERT_EQ(loadAuthenticationStatusFile.getLoadListRatio(loadListRatio),
-            FileOperationResult::FILE_OPERATION_OK);
+            FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadListRatio, 75);
 
     std::shared_ptr <std::vector<LoadAuthenticationStatusHeaderFile>> headerFiles;
     ASSERT_EQ(loadAuthenticationStatusFile.getHeaderFiles(headerFiles),
-            FileOperationResult::FILE_OPERATION_OK);
+            FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFiles->size(), 3);
 
     for (int i = 0; i < 3; ++i)
     {
     uint8_t headerFileNameLength = 0;
     ASSERT_EQ(headerFiles->at(i).getHeaderFileNameLength(headerFileNameLength),
-            FileOperationResult::FILE_OPERATION_OK);
+            FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFileNameLength, 16);
 
     std::string headerFileName;
     ASSERT_EQ(headerFiles->at(i).getHeaderFileName(headerFileName),
-            FileOperationResult::FILE_OPERATION_OK);
+            FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFileName, "TEST_FILE" + std::to_string(i + 1) + ".TEST");
 
     uint8_t loadPartNumberNameLength = 0;
     ASSERT_EQ(headerFiles->at(i).getLoadPartNumberNameLength(loadPartNumberNameLength),
-            FileOperationResult::FILE_OPERATION_OK);
+            FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadPartNumberNameLength, 18);
 
     std::string loadPartNumberName;
     ASSERT_EQ(headerFiles->at(i).getLoadPartNumberName(loadPartNumberName),
-            FileOperationResult::FILE_OPERATION_OK);
+            FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadPartNumberName, "TEST_PART_NUMBER" + std::to_string(i + 1));
 
     uint32_t loadRatio = 0;
     ASSERT_EQ(headerFiles->at(i).getLoadRatio(loadRatio),
-            FileOperationResult::FILE_OPERATION_OK);
+            FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadRatio, 42 + i);
 
     uint16_t loadStatus = 0;
     ASSERT_EQ(headerFiles->at(i).getLoadStatus(loadStatus),
-            FileOperationResult::FILE_OPERATION_OK);
+            FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadStatus, 0x4242 + i);
 
     uint8_t loadStatusDescriptionLength = 0;
     ASSERT_EQ(headerFiles->at(i).getLoadStatusDescriptionLength(loadStatusDescriptionLength),
-            FileOperationResult::FILE_OPERATION_OK);
+            FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadStatusDescriptionLength, 25);
 
     std::string loadStatusDescription;
     ASSERT_EQ(headerFiles->at(i).getLoadStatusDescription(loadStatusDescription),
-            FileOperationResult::FILE_OPERATION_OK);
+            FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadStatusDescription, "TEST_STATUS_DESCRIPTION" + std::to_string(i + 1));
     }
 }

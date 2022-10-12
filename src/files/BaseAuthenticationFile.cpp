@@ -16,27 +16,27 @@ BaseAuthenticationFile::~BaseAuthenticationFile()
 {
 }
 
-FileOperationResult BaseAuthenticationFile::getProtocolVersion(std::string &protocolVersion)
+FileAuthenticationOperationResult BaseAuthenticationFile::getProtocolVersion(std::string &protocolVersion)
 {
     protocolVersion = std::string(2, '\0');
     protocolVersion[0] = this->protocolVersion[0];
     protocolVersion[1] = this->protocolVersion[1];
-    return FileOperationResult::FILE_OPERATION_OK;
+    return FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK;
 }
 
-FileOperationResult BaseAuthenticationFile::getFileLength(uint32_t &fileLength)
+FileAuthenticationOperationResult BaseAuthenticationFile::getFileLength(uint32_t &fileLength)
 {
     fileLength = this->fileLength;
-    return FileOperationResult::FILE_OPERATION_OK;
+    return FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK;
 }
 
-FileOperationResult BaseAuthenticationFile::getFileName(std::string &fileName)
+FileAuthenticationOperationResult BaseAuthenticationFile::getFileName(std::string &fileName)
 {
     fileName = this->fileName;
-    return FileOperationResult::FILE_OPERATION_OK;
+    return FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK;
 }
 
-SerializableOperationResult BaseAuthenticationFile::serialize(
+SerializableAuthenticationOperationResult BaseAuthenticationFile::serialize(
     std::shared_ptr<std::vector<uint8_t>> &data)
 {
     data->push_back((fileLength >> 24) & 0xFF);
@@ -46,16 +46,16 @@ SerializableOperationResult BaseAuthenticationFile::serialize(
     data->insert(data->end(), protocolVersion,
                  protocolVersion + PROTOCOL_VERSION_SIZE);
 
-    return SerializableOperationResult::SERIALIZABLE_OK;
+    return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK;
 }
 
-SerializableOperationResult BaseAuthenticationFile::deserialize(
+SerializableAuthenticationOperationResult BaseAuthenticationFile::deserialize(
     std::shared_ptr<std::vector<uint8_t>> &data)
 {
     size_t offset = 0;
     if (data->size() < offset + sizeof(fileLength))
     {
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     fileLength = (data->at(offset) << 24) | (data->at(offset + 1) << 16) |
                  (data->at(offset + 2) << 8) | data->at(offset + 3);
@@ -63,26 +63,26 @@ SerializableOperationResult BaseAuthenticationFile::deserialize(
 
     if (data->size() < offset + PROTOCOL_VERSION_SIZE)
     {
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     std::memcpy(protocolVersion, data->data() + offset, PROTOCOL_VERSION_SIZE);
 
-    return SerializableOperationResult::SERIALIZABLE_OK;
+    return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK;
 }
 
-SerializableOperationResult BaseAuthenticationFile::serializeJSON(std::string &data)
+SerializableAuthenticationOperationResult BaseAuthenticationFile::serializeJSON(std::string &data)
 {
     cJSON *root = cJSON_CreateObject();
     if (root == NULL)
     {
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
 
     cJSON *fileNameJSON = cJSON_CreateString(fileName.c_str());
     if (fileNameJSON == NULL)
     {
         cJSON_Delete(root);
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     cJSON_AddItemToObject(root, "fileName", fileNameJSON);
 
@@ -90,7 +90,7 @@ SerializableOperationResult BaseAuthenticationFile::serializeJSON(std::string &d
     if (fileLengthJSON == NULL)
     {
         cJSON_Delete(root);
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     cJSON_AddItemToObject(root, "fileLength", fileLengthJSON);
 
@@ -102,7 +102,7 @@ SerializableOperationResult BaseAuthenticationFile::serializeJSON(std::string &d
     if (protocolVersionJSON == NULL)
     {
         cJSON_Delete(root);
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     cJSON_AddItemToObject(root, "protocolVersion", protocolVersionJSON);
 
@@ -110,21 +110,21 @@ SerializableOperationResult BaseAuthenticationFile::serializeJSON(std::string &d
     if (serializedJSON == NULL)
     {
         cJSON_Delete(root);
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     data = std::string(serializedJSON);
     free(serializedJSON);
     cJSON_Delete(root);
 
-    return SerializableOperationResult::SERIALIZABLE_OK;
+    return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK;
 }
 
-SerializableOperationResult BaseAuthenticationFile::deserializeJSON(std::string &data)
+SerializableAuthenticationOperationResult BaseAuthenticationFile::deserializeJSON(std::string &data)
 {
     cJSON *root = cJSON_Parse(data.c_str());
     if (root == NULL)
     {
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
 
     cJSON *fileNameJSON = cJSON_GetObjectItemCaseSensitive(root, "fileName");
@@ -134,7 +134,7 @@ SerializableOperationResult BaseAuthenticationFile::deserializeJSON(std::string 
     }
     else
     {
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
 
     cJSON *fileLengthJSON = cJSON_GetObjectItemCaseSensitive(root, "fileLength");
@@ -144,7 +144,7 @@ SerializableOperationResult BaseAuthenticationFile::deserializeJSON(std::string 
     }
     else
     {
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
 
     cJSON *protocolVersionJSON = cJSON_GetObjectItemCaseSensitive(root, "protocolVersion");
@@ -154,15 +154,15 @@ SerializableOperationResult BaseAuthenticationFile::deserializeJSON(std::string 
     }
     else
     {
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     cJSON_Delete(root);
 
-    return SerializableOperationResult::SERIALIZABLE_OK;
+    return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK;
 }
 
-FileOperationResult BaseAuthenticationFile::getFileSize(size_t &fileSize)
+FileAuthenticationOperationResult BaseAuthenticationFile::getFileSize(size_t &fileSize)
 {
     fileSize = sizeof(fileLength) + PROTOCOL_VERSION_SIZE;
-    return FileOperationResult::FILE_OPERATION_OK;
+    return FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK;
 }

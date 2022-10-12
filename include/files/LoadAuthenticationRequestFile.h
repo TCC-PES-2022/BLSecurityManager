@@ -6,7 +6,7 @@
 #define MAX_HEADER_FILE_NAME_SIZE static_cast<size_t>(255)      // bytes
 #define MAX_LOAD_PART_NUMBER_NAME_SIZE static_cast<size_t>(255) // bytes
 
-class LoadAuthenticationRequestHeaderFile : public ISerializable, public IFileAuthentication
+class LoadAuthenticationRequestHeaderFile : public ISerializableAuthentication, public IFileAuthentication
 {
 public:
         LoadAuthenticationRequestHeaderFile();
@@ -17,10 +17,10 @@ public:
          *
          * @param[in] headerFileName Header File Name.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult setHeaderFileName(
+        FileAuthenticationOperationResult setHeaderFileName(
             std::string headerFileName);
 
         /**
@@ -28,63 +28,63 @@ public:
          *
          * @param[out] headerFileName Header File Name.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getHeaderFileName(std::string &headerFileName);
+        FileAuthenticationOperationResult getHeaderFileName(std::string &headerFileName);
 
         /**
          * @brief Set Load Part Number Name
          *
          * @param[in] loadPartNumber Part Number Name
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult setLoadPartNumberName(std::string loadPartNumber);
+        FileAuthenticationOperationResult setLoadPartNumberName(std::string loadPartNumber);
 
         /**
          * @brief Get Load Part Number Name
          *
          * @param[out] loadPartNumberName Load Part Number Name.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getLoadPartNumberName(std::string &loadPartNumberName);
+        FileAuthenticationOperationResult getLoadPartNumberName(std::string &loadPartNumberName);
 
         /**
          * @brief Get Header File Name Length
          *
          * @param[out] headerFileNameLength Header File Name Length.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getHeaderFileNameLength(uint8_t &headerFileNameLength);
+        FileAuthenticationOperationResult getHeaderFileNameLength(uint8_t &headerFileNameLength);
 
         /**
          * @brief Get Load Part Number Name Length
          *
          * @param[out] loadPartNumberNameLength Load Part Number Name Length.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getLoadPartNumberNameLength(uint8_t &loadPartNumberNameLength);
+        FileAuthenticationOperationResult getLoadPartNumberNameLength(uint8_t &loadPartNumberNameLength);
 
-        FileOperationResult getFileSize(size_t &fileSize) override;
+        FileAuthenticationOperationResult getFileSize(size_t &fileSize) override;
 
-        SerializableOperationResult serialize(
+        SerializableAuthenticationOperationResult serialize(
             std::shared_ptr<std::vector<uint8_t>> &data) override;
 
-        SerializableOperationResult deserialize(
+        SerializableAuthenticationOperationResult deserialize(
             std::shared_ptr<std::vector<uint8_t>> &data) override;
 
-        SerializableOperationResult serializeJSON(
+        SerializableAuthenticationOperationResult serializeJSON(
             std::string &data) override;
 
-        SerializableOperationResult deserializeJSON(
+        SerializableAuthenticationOperationResult deserializeJSON(
             std::string &data) override;
 
 private:
@@ -107,34 +107,34 @@ public:
          *
          * @param[in] headerFile Header file.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult addHeaderFile(
+        FileAuthenticationOperationResult addHeaderFile(
             LoadAuthenticationRequestHeaderFile &headerFile);
         /**
          * @brief Get all header files.
          *
          * @param[out] headerFiles List of header files.
          *
-         * @return FILE_OPERATION_OK if success.
-         * @return FILE_OPERATION_ERROR otherwise.
+         * @return FILE_AUTHENTICATION_OPERATION_OK if success.
+         * @return FILE_AUTHENTICATION_OPERATION_ERROR otherwise.
          */
-        FileOperationResult getHeaderFiles(
+        FileAuthenticationOperationResult getHeaderFiles(
             std::shared_ptr<std::vector<LoadAuthenticationRequestHeaderFile>> &headerFiles);
 
-        FileOperationResult getFileSize(size_t &fileSize) override;
+        FileAuthenticationOperationResult getFileSize(size_t &fileSize) override;
 
-        SerializableOperationResult serialize(
+        SerializableAuthenticationOperationResult serialize(
             std::shared_ptr<std::vector<uint8_t>> &data) override;
 
-        SerializableOperationResult deserialize(
+        SerializableAuthenticationOperationResult deserialize(
             std::shared_ptr<std::vector<uint8_t>> &data) override;
 
-        SerializableOperationResult serializeJSON(
+        SerializableAuthenticationOperationResult serializeJSON(
             std::string &data) override;
 
-        SerializableOperationResult deserializeJSON(
+        SerializableAuthenticationOperationResult deserializeJSON(
             std::string &data) override;
 
 private:

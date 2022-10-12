@@ -6,13 +6,13 @@ TEST(AuthenticationFilesTest, LoadAuthenticationRequestHeaderFileSetFileName)
 {
     LoadAuthenticationRequestHeaderFile loadAuthenticationRequestHeaderFile;
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.setHeaderFileName("TEST_FILE1.TEST"),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     std::string headerFileName = "";
     uint8_t headerFileNameLength = 0;
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.getHeaderFileName(headerFileName),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.getHeaderFileNameLength(headerFileNameLength),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFileName, "TEST_FILE1.TEST");
     ASSERT_EQ(headerFileNameLength, 16);
 }
@@ -21,13 +21,13 @@ TEST(AuthenticationFilesTest, LoadAuthenticationRequestHeaderFileSetLoadPartNumb
 {
     LoadAuthenticationRequestHeaderFile loadAuthenticationRequestHeaderFile;
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.setLoadPartNumberName("TEST_PART_NUMBER1"),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     std::string loadPartNumberName = "";
     uint8_t loadPartNumberNameLength = 0;
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.getLoadPartNumberName(loadPartNumberName),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.getLoadPartNumberNameLength(loadPartNumberNameLength),
-                FileOperationResult::FILE_OPERATION_OK);
+                FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadPartNumberName, "TEST_PART_NUMBER1");
     ASSERT_EQ(loadPartNumberNameLength, 18);
 }
@@ -36,12 +36,12 @@ TEST(AuthenticationFilesTest, LoadAuthenticationRequestHeaderFileSerialize)
 {
     LoadAuthenticationRequestHeaderFile loadAuthenticationRequestHeaderFile;
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.setHeaderFileName("TEST_FILE1.TEST"),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.setLoadPartNumberName("TEST_PART_NUMBER1"),
-                FileOperationResult::FILE_OPERATION_OK);
+                FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     std::shared_ptr<std::vector<uint8_t>> data = std::make_shared<std::vector<uint8_t>>();
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.serialize(data),
-              SerializableOperationResult::SERIALIZABLE_OK);
+              SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK);
     ASSERT_EQ(data->size(), 36);
     ASSERT_EQ(data->at(0), 16);
     ASSERT_EQ(data->at(1), 'T');
@@ -86,12 +86,12 @@ TEST(AuthenticationFilesTest, LoadAuthenticationRequestHeaderFileSerializeOverfl
     LoadAuthenticationRequestHeaderFile loadAuthenticationRequestHeaderFile;
     std::string overflowStringA(1024, 'A');
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.setHeaderFileName(overflowStringA),
-    FileOperationResult::FILE_OPERATION_OK);
+    FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.setLoadPartNumberName(overflowStringA),
-    FileOperationResult::FILE_OPERATION_OK);
+    FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     std::shared_ptr<std::vector<uint8_t>> data = std::make_shared<std::vector<uint8_t>>();
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.serialize(data),
-            SerializableOperationResult::SERIALIZABLE_OK);
+            SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK);
     ASSERT_EQ(data->size(), 512);
     for (uint16_t i = 0; i < 2; i++)
     {
@@ -145,21 +145,21 @@ TEST(AuthenticationFilesTest, LoadAuthenticationRequestHeaderFileDeserialize)
     data->push_back('1');
     data->push_back('\0');
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.deserialize(data),
-              SerializableOperationResult::SERIALIZABLE_OK);
+              SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK);
     std::string headerFileName = "";
     uint8_t headerFileNameLength = 0;
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.getHeaderFileName(headerFileName),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.getHeaderFileNameLength(headerFileNameLength),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFileName, "TEST_FILE1.TEST");
     ASSERT_EQ(headerFileNameLength, 16);
     std::string loadPartNumberName = "";
     uint8_t loadPartNumberNameLength = 0;
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.getLoadPartNumberName(loadPartNumberName),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.getLoadPartNumberNameLength(loadPartNumberNameLength),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadPartNumberName, "TEST_PART_NUMBER1");
     ASSERT_EQ(loadPartNumberNameLength, 18);
 }
@@ -168,11 +168,11 @@ TEST(AuthenticationFilesTest, LoadAuthenticationRequestHeaderFileSerializeJSON)
 {
     LoadAuthenticationRequestHeaderFile loadAuthenticationRequestHeaderFile;
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.setHeaderFileName("TEST_FILE1.TEST"),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.setLoadPartNumberName("TEST_PART_NUMBER1"),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     std::string data("");
-    ASSERT_EQ(loadAuthenticationRequestHeaderFile.serializeJSON(data), SerializableOperationResult::SERIALIZABLE_OK);
+    ASSERT_EQ(loadAuthenticationRequestHeaderFile.serializeJSON(data), SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK);
     ASSERT_EQ(data, "{"
                     "\"headerFileNameLength\":16,"
                     "\"headerFileName\":\"TEST_FILE1.TEST\","
@@ -190,21 +190,21 @@ TEST(AuthenticationFilesTest, LoadAuthenticationRequestHeaderFileDeserializeJSON
                      "\"loadPartNumberNameLength\":18,"
                      "\"loadPartNumberName\":\"TEST_PART_NUMBER1\""
                      "}");
-    ASSERT_EQ(loadAuthenticationRequestHeaderFile.deserializeJSON(data), SerializableOperationResult::SERIALIZABLE_OK);
+    ASSERT_EQ(loadAuthenticationRequestHeaderFile.deserializeJSON(data), SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK);
     std::string headerFileName = "";
     uint8_t headerFileNameLength = 0;
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.getHeaderFileName(headerFileName),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.getHeaderFileNameLength(headerFileNameLength),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(headerFileName, "TEST_FILE1.TEST");
     ASSERT_EQ(headerFileNameLength, 16);
     std::string loadPartNumberName = "";
     uint8_t loadPartNumberNameLength = 0;
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.getLoadPartNumberName(loadPartNumberName),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadAuthenticationRequestHeaderFile.getLoadPartNumberNameLength(loadPartNumberNameLength),
-              FileOperationResult::FILE_OPERATION_OK);
+              FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK);
     ASSERT_EQ(loadPartNumberName, "TEST_PART_NUMBER1");
     ASSERT_EQ(loadPartNumberNameLength, 18);
 }

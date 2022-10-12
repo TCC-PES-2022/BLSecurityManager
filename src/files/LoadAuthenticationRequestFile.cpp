@@ -17,7 +17,7 @@ LoadAuthenticationRequestFile::~LoadAuthenticationRequestFile()
     headerFiles = nullptr;
 }
 
-FileOperationResult
+FileAuthenticationOperationResult
 LoadAuthenticationRequestFile::addHeaderFile(
     LoadAuthenticationRequestHeaderFile &headerFile)
 {
@@ -28,7 +28,7 @@ LoadAuthenticationRequestFile::addHeaderFile(
 
     if (headerFileName.empty() || loadPartNumberName.empty())
     {
-        return FileOperationResult::FILE_OPERATION_ERROR;
+        return FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_ERROR;
     }
 
     headerFiles->push_back(headerFile);
@@ -37,23 +37,23 @@ LoadAuthenticationRequestFile::addHeaderFile(
     size_t headerFileSize = 0;
     headerFile.getFileSize(headerFileSize);
     fileLength += headerFileSize;
-    return FileOperationResult::FILE_OPERATION_OK;
+    return FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK;
 }
 
-FileOperationResult
+FileAuthenticationOperationResult
 LoadAuthenticationRequestFile::getHeaderFiles(
     std::shared_ptr<std::vector<LoadAuthenticationRequestHeaderFile>> &headerFiles)
 {
     headerFiles = this->headerFiles;
-    return FileOperationResult::FILE_OPERATION_OK;
+    return FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK;
 }
 
-SerializableOperationResult
+SerializableAuthenticationOperationResult
 LoadAuthenticationRequestFile::serialize(
     std::shared_ptr<std::vector<uint8_t>> &data)
 {
-    SerializableOperationResult result = BaseAuthenticationFile::serialize(data);
-    if (result != SerializableOperationResult::SERIALIZABLE_OK)
+    SerializableAuthenticationOperationResult result = BaseAuthenticationFile::serialize(data);
+    if (result != SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK)
     {
         return result;
     }
@@ -68,22 +68,22 @@ LoadAuthenticationRequestFile::serialize(
     {
         std::shared_ptr<std::vector<uint8_t>> headerFileData = std::make_shared<std::vector<uint8_t>>();
         result = it->serialize(headerFileData);
-        if (result != SerializableOperationResult::SERIALIZABLE_OK)
+        if (result != SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK)
         {
             return result;
         }
         data->insert(data->end(), headerFileData->begin(), headerFileData->end());
     }
 
-    return SerializableOperationResult::SERIALIZABLE_OK;
+    return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK;
 }
 
-SerializableOperationResult
+SerializableAuthenticationOperationResult
 LoadAuthenticationRequestFile::deserialize(
     std::shared_ptr<std::vector<uint8_t>> &data)
 {
-    SerializableOperationResult result = BaseAuthenticationFile::deserialize(data);
-    if (result != SerializableOperationResult::SERIALIZABLE_OK)
+    SerializableAuthenticationOperationResult result = BaseAuthenticationFile::deserialize(data);
+    if (result != SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK)
     {
         return result;
     }
@@ -94,7 +94,7 @@ LoadAuthenticationRequestFile::deserialize(
 
     if (data->size() < offset + sizeof(numberOfHeaderFiles))
     {
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
 
     numberOfHeaderFiles = (data->at(offset) << 8) | data->at(offset + 1);
@@ -102,7 +102,7 @@ LoadAuthenticationRequestFile::deserialize(
 
     if ((data->size() - offset) <= 0)
     {
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
 
     for (uint16_t i = 0; i < numberOfHeaderFiles; i++)
@@ -112,7 +112,7 @@ LoadAuthenticationRequestFile::deserialize(
             std::make_shared<std::vector<uint8_t>>(headerFileData);
         LoadAuthenticationRequestHeaderFile headerFile;
         result = headerFile.deserialize(headerFileDataPtr);
-        if (result != SerializableOperationResult::SERIALIZABLE_OK)
+        if (result != SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK)
         {
             return result;
         }
@@ -135,14 +135,14 @@ LoadAuthenticationRequestFile::deserialize(
         offset += childSize;
     }
 
-    return SerializableOperationResult::SERIALIZABLE_OK;
+    return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK;
 }
 
-SerializableOperationResult
+SerializableAuthenticationOperationResult
 LoadAuthenticationRequestFile::serializeJSON(std::string &data)
 {
-    SerializableOperationResult result = BaseAuthenticationFile::serializeJSON(data);
-    if (result != SerializableOperationResult::SERIALIZABLE_OK)
+    SerializableAuthenticationOperationResult result = BaseAuthenticationFile::serializeJSON(data);
+    if (result != SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK)
     {
         return result;
     }
@@ -150,14 +150,14 @@ LoadAuthenticationRequestFile::serializeJSON(std::string &data)
     cJSON *root = cJSON_Parse(data.c_str());
     if (root == nullptr)
     {
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
 
     cJSON *numberOfHeaderFilesJSON = cJSON_CreateNumber(numberOfHeaderFiles);
     if (numberOfHeaderFilesJSON == nullptr)
     {
         cJSON_Delete(root);
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     cJSON_AddItemToObject(root, "numberOfHeaderFiles", numberOfHeaderFilesJSON);
 
@@ -165,7 +165,7 @@ LoadAuthenticationRequestFile::serializeJSON(std::string &data)
     if (headerFilesJSON == nullptr)
     {
         cJSON_Delete(root);
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     cJSON_AddItemToObject(root, "headerFiles", headerFilesJSON);
 
@@ -175,7 +175,7 @@ LoadAuthenticationRequestFile::serializeJSON(std::string &data)
     {
         std::string headerFileData;
         result = it->serializeJSON(headerFileData);
-        if (result != SerializableOperationResult::SERIALIZABLE_OK)
+        if (result != SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK)
         {
             cJSON_Delete(root);
             return result;
@@ -184,7 +184,7 @@ LoadAuthenticationRequestFile::serializeJSON(std::string &data)
         if (headerFileJSON == nullptr)
         {
             cJSON_Delete(root);
-            return SerializableOperationResult::SERIALIZABLE_ERROR;
+            return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
         }
         cJSON_AddItemToArray(headerFilesJSON, headerFileJSON);
     }
@@ -193,20 +193,20 @@ LoadAuthenticationRequestFile::serializeJSON(std::string &data)
     if (serializedData == nullptr)
     {
         cJSON_Delete(root);
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     data = std::string(serializedData);
     free(serializedData);
     cJSON_Delete(root);
 
-    return SerializableOperationResult::SERIALIZABLE_OK;
+    return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK;
 }
 
-SerializableOperationResult
+SerializableAuthenticationOperationResult
 LoadAuthenticationRequestFile::deserializeJSON(std::string &data)
 {
-    SerializableOperationResult result = BaseAuthenticationFile::deserializeJSON(data);
-    if (result != SerializableOperationResult::SERIALIZABLE_OK)
+    SerializableAuthenticationOperationResult result = BaseAuthenticationFile::deserializeJSON(data);
+    if (result != SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK)
     {
         return result;
     }
@@ -214,14 +214,14 @@ LoadAuthenticationRequestFile::deserializeJSON(std::string &data)
     cJSON *root = cJSON_Parse(data.c_str());
     if (root == nullptr)
     {
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
 
     cJSON *numberOfHeaderFilesJSON = cJSON_GetObjectItem(root, "numberOfHeaderFiles");
     if (numberOfHeaderFilesJSON == nullptr)
     {
         cJSON_Delete(root);
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     numberOfHeaderFiles = numberOfHeaderFilesJSON->valueint;
 
@@ -229,13 +229,13 @@ LoadAuthenticationRequestFile::deserializeJSON(std::string &data)
     if (headerFilesJSON == nullptr)
     {
         cJSON_Delete(root);
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     int headerArraySize = cJSON_GetArraySize(headerFilesJSON);
     if (headerArraySize != numberOfHeaderFiles)
     {
         cJSON_Delete(root);
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     for (int i = 0; i < numberOfHeaderFiles; i++)
     {
@@ -243,19 +243,19 @@ LoadAuthenticationRequestFile::deserializeJSON(std::string &data)
         if (headerFileJSON == nullptr)
         {
             cJSON_Delete(root);
-            return SerializableOperationResult::SERIALIZABLE_ERROR;
+            return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
         }
         char *headerFileData = cJSON_PrintUnformatted(headerFileJSON);
         if (headerFileData == nullptr)
         {
             cJSON_Delete(root);
-            return SerializableOperationResult::SERIALIZABLE_ERROR;
+            return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
         }
         std::string data = std::string(headerFileData);
         LoadAuthenticationRequestHeaderFile headerFile;
         result = headerFile.deserializeJSON(data);
         free(headerFileData);
-        if (result != SerializableOperationResult::SERIALIZABLE_OK)
+        if (result != SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK)
         {
             cJSON_Delete(root);
             return result;
@@ -270,13 +270,13 @@ LoadAuthenticationRequestFile::deserializeJSON(std::string &data)
     }
     cJSON_Delete(root);
 
-    return SerializableOperationResult::SERIALIZABLE_OK;
+    return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK;
 }
 
-FileOperationResult LoadAuthenticationRequestFile::getFileSize(size_t &fileSize)
+FileAuthenticationOperationResult LoadAuthenticationRequestFile::getFileSize(size_t &fileSize)
 {
-    FileOperationResult result = BaseAuthenticationFile::getFileSize(fileSize);
-    if (result != FileOperationResult::FILE_OPERATION_OK)
+    FileAuthenticationOperationResult result = BaseAuthenticationFile::getFileSize(fileSize);
+    if (result != FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK)
     {
         return result;
     }
@@ -288,14 +288,14 @@ FileOperationResult LoadAuthenticationRequestFile::getFileSize(size_t &fileSize)
     {
         size_t headerFileSize = 0;
         result = (*it).getFileSize(headerFileSize);
-        if (result != FileOperationResult::FILE_OPERATION_OK)
+        if (result != FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK)
         {
             return result;
         }
         fileSize += headerFileSize;
     }
 
-    return FileOperationResult::FILE_OPERATION_OK;
+    return FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK;
 }
 
 LoadAuthenticationRequestHeaderFile::LoadAuthenticationRequestHeaderFile()
@@ -310,12 +310,12 @@ LoadAuthenticationRequestHeaderFile::~LoadAuthenticationRequestHeaderFile()
 {
 }
 
-FileOperationResult LoadAuthenticationRequestHeaderFile::setHeaderFileName(
+FileAuthenticationOperationResult LoadAuthenticationRequestHeaderFile::setHeaderFileName(
     std::string headerFileName)
 {
     if (headerFileName.empty())
     {
-        return FileOperationResult::FILE_OPERATION_ERROR;
+        return FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_ERROR;
     }
 
     headerFileNameLength = std::min(headerFileName.length() + 1,
@@ -328,22 +328,22 @@ FileOperationResult LoadAuthenticationRequestHeaderFile::setHeaderFileName(
         this->headerFileName[headerFileNameLength - 1] = '\0';
     }
 
-    return FileOperationResult::FILE_OPERATION_OK;
+    return FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK;
 }
 
-FileOperationResult
+FileAuthenticationOperationResult
 LoadAuthenticationRequestHeaderFile::getHeaderFileName(std::string &headerFileName)
 {
     headerFileName = this->headerFileName;
-    return FileOperationResult::FILE_OPERATION_OK;
+    return FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK;
 }
 
-FileOperationResult LoadAuthenticationRequestHeaderFile::setLoadPartNumberName(
+FileAuthenticationOperationResult LoadAuthenticationRequestHeaderFile::setLoadPartNumberName(
     std::string loadPartNumberName)
 {
     if (loadPartNumberName.empty())
     {
-        return FileOperationResult::FILE_OPERATION_ERROR;
+        return FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_ERROR;
     }
 
     loadPartNumberNameLength = std::min(loadPartNumberName.length() + 1,
@@ -356,33 +356,33 @@ FileOperationResult LoadAuthenticationRequestHeaderFile::setLoadPartNumberName(
         this->loadPartNumberName[loadPartNumberNameLength - 1] = '\0';
     }
 
-    return FileOperationResult::FILE_OPERATION_OK;
+    return FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK;
 }
 
-FileOperationResult
+FileAuthenticationOperationResult
 LoadAuthenticationRequestHeaderFile::getLoadPartNumberName(std::string &loadPartNumberName)
 {
     loadPartNumberName = this->loadPartNumberName;
-    return FileOperationResult::FILE_OPERATION_OK;
+    return FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK;
 }
 
-FileOperationResult
+FileAuthenticationOperationResult
 LoadAuthenticationRequestHeaderFile::getHeaderFileNameLength(
     uint8_t &headerFileNameLength)
 {
     headerFileNameLength = this->headerFileNameLength;
-    return FileOperationResult::FILE_OPERATION_OK;
+    return FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK;
 }
 
-FileOperationResult
+FileAuthenticationOperationResult
 LoadAuthenticationRequestHeaderFile::getLoadPartNumberNameLength(
     uint8_t &loadPartNumberNameLength)
 {
     loadPartNumberNameLength = this->loadPartNumberNameLength;
-    return FileOperationResult::FILE_OPERATION_OK;
+    return FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK;
 }
 
-SerializableOperationResult
+SerializableAuthenticationOperationResult
 LoadAuthenticationRequestHeaderFile::serialize(
     std::shared_ptr<std::vector<uint8_t>> &data)
 {
@@ -392,10 +392,10 @@ LoadAuthenticationRequestHeaderFile::serialize(
     data->push_back(loadPartNumberNameLength);
     data->insert(data->end(), loadPartNumberName,
                  loadPartNumberName + loadPartNumberNameLength);
-    return SerializableOperationResult::SERIALIZABLE_OK;
+    return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK;
 }
 
-SerializableOperationResult
+SerializableAuthenticationOperationResult
 LoadAuthenticationRequestHeaderFile::deserialize(
     std::shared_ptr<std::vector<uint8_t>> &data)
 {
@@ -403,7 +403,7 @@ LoadAuthenticationRequestHeaderFile::deserialize(
 
     if (data->size() < offset + sizeof(headerFileNameLength))
     {
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
 
     headerFileNameLength = data->at(offset);
@@ -411,14 +411,14 @@ LoadAuthenticationRequestHeaderFile::deserialize(
 
     if (data->size() < offset + headerFileNameLength)
     {
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     std::memcpy(headerFileName, data->data() + offset, headerFileNameLength);
     offset += headerFileNameLength;
 
     if (data->size() < offset + sizeof(loadPartNumberNameLength))
     {
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
 
     loadPartNumberNameLength = data->at(offset);
@@ -426,27 +426,27 @@ LoadAuthenticationRequestHeaderFile::deserialize(
 
     if (data->size() < offset + loadPartNumberNameLength)
     {
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
 
     std::memcpy(loadPartNumberName, data->data() + offset, loadPartNumberNameLength);
-    return SerializableOperationResult::SERIALIZABLE_OK;
+    return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK;
 }
 
-SerializableOperationResult
+SerializableAuthenticationOperationResult
 LoadAuthenticationRequestHeaderFile::serializeJSON(std::string &data)
 {
     cJSON *root = cJSON_CreateObject();
     if (root == NULL)
     {
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
 
     cJSON *headerFileNameLengthJSON = cJSON_CreateNumber(headerFileNameLength);
     if (headerFileNameLengthJSON == NULL)
     {
         cJSON_Delete(root);
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     cJSON_AddItemToObject(root, "headerFileNameLength", headerFileNameLengthJSON);
 
@@ -454,7 +454,7 @@ LoadAuthenticationRequestHeaderFile::serializeJSON(std::string &data)
     if (headerFileNameJSON == NULL)
     {
         cJSON_Delete(root);
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     cJSON_AddItemToObject(root, "headerFileName", headerFileNameJSON);
 
@@ -462,7 +462,7 @@ LoadAuthenticationRequestHeaderFile::serializeJSON(std::string &data)
     if (loadPartNumberNameLengthJSON == NULL)
     {
         cJSON_Delete(root);
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     cJSON_AddItemToObject(root, "loadPartNumberNameLength", loadPartNumberNameLengthJSON);
 
@@ -470,7 +470,7 @@ LoadAuthenticationRequestHeaderFile::serializeJSON(std::string &data)
     if (loadPartNumberNameJSON == NULL)
     {
         cJSON_Delete(root);
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     cJSON_AddItemToObject(root, "loadPartNumberName", loadPartNumberNameJSON);
 
@@ -478,28 +478,28 @@ LoadAuthenticationRequestHeaderFile::serializeJSON(std::string &data)
     if (serializedJSON == NULL)
     {
         cJSON_Delete(root);
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     data = std::string(serializedJSON);
     free(serializedJSON);
     cJSON_Delete(root);
-    return SerializableOperationResult::SERIALIZABLE_OK;
+    return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK;
 }
 
-SerializableOperationResult
+SerializableAuthenticationOperationResult
 LoadAuthenticationRequestHeaderFile::deserializeJSON(std::string &data)
 {
     cJSON *root = cJSON_Parse(data.c_str());
     if (root == NULL)
     {
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
 
     cJSON *headerFileNameLengthJSON = cJSON_GetObjectItemCaseSensitive(root, "headerFileNameLength");
     if (headerFileNameLengthJSON == NULL)
     {
         cJSON_Delete(root);
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     headerFileNameLength = headerFileNameLengthJSON->valueint;
 
@@ -507,7 +507,7 @@ LoadAuthenticationRequestHeaderFile::deserializeJSON(std::string &data)
     if (headerFileNameJSON == NULL)
     {
         cJSON_Delete(root);
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     std::memcpy(headerFileName, headerFileNameJSON->valuestring, headerFileNameLength);
 
@@ -515,7 +515,7 @@ LoadAuthenticationRequestHeaderFile::deserializeJSON(std::string &data)
     if (loadPartNumberNameLengthJSON == NULL)
     {
         cJSON_Delete(root);
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     loadPartNumberNameLength = loadPartNumberNameLengthJSON->valueint;
 
@@ -523,19 +523,19 @@ LoadAuthenticationRequestHeaderFile::deserializeJSON(std::string &data)
     if (loadPartNumberNameJSON == NULL)
     {
         cJSON_Delete(root);
-        return SerializableOperationResult::SERIALIZABLE_ERROR;
+        return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_ERROR;
     }
     std::memcpy(loadPartNumberName, loadPartNumberNameJSON->valuestring, loadPartNumberNameLength);
 
     cJSON_Delete(root);
-    return SerializableOperationResult::SERIALIZABLE_OK;
+    return SerializableAuthenticationOperationResult::SERIALIZABLE_AUTHENTICATION_OK;
 }
 
-FileOperationResult LoadAuthenticationRequestHeaderFile::getFileSize(
+FileAuthenticationOperationResult LoadAuthenticationRequestHeaderFile::getFileSize(
     size_t &fileSize)
 {
     fileSize = sizeof(headerFileNameLength) + headerFileNameLength +
                sizeof(loadPartNumberNameLength) + loadPartNumberNameLength;
 
-    return FileOperationResult::FILE_OPERATION_OK;
+    return FileAuthenticationOperationResult::FILE_AUTHENTICATION_OPERATION_OK;
 }
