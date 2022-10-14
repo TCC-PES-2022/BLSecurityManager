@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <cstring>
 #include <algorithm>
 
 #include "AuthenticationTargetHardware.h"
@@ -36,6 +37,7 @@ AuthenticationTargetHardware::AuthenticationTargetHardware(
 
     loadListRatio = 0;
     authenticationAborted = false;
+    authenticationWaitTime = 0;
 }
 
 AuthenticationTargetHardware::~AuthenticationTargetHardware()
@@ -516,6 +518,7 @@ AuthenticationOperationResult AuthenticationTargetHardware::authenticationThread
     std::vector<LoadAuthenticationStatusHeaderFile>::iterator it;
 
     unsigned char fileBuffer[MAX_CERTIFICATE_BUFFER_SIZE];
+    std::memset(fileBuffer, 0, MAX_CERTIFICATE_BUFFER_SIZE);
 
     for (it = statusHeaderFiles->begin();
          (it != statusHeaderFiles->end()) && runAuthenticationThread;
