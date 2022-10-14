@@ -50,10 +50,6 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c*
 makedir:
 	@mkdir -p $(BIN_PATH) $(OBJ_PATH)
 
-.PHONY: gtest
-gtest:
-	cd $(GTEST_ROOT) && cmake . && make -j $(shell echo $$((`nproc`)))
-
 .PHONY: deps
 deps: $(DEPS)
 
