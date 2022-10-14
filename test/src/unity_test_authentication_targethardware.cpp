@@ -68,7 +68,7 @@ protected:
         for (int i = 1; i <= NUM_LOADS; ++i)
         {
             LoadAuthenticationRequestHeaderFile headerFile;
-            headerFile.setHeaderFileName("certificate/pes.crt");
+            headerFile.setHeaderFileName("certificate/pescert.crt");
             headerFile.setLoadPartNumberName("00000000");
             loadAuthenticationRequestFile->addHeaderFile(headerFile);
         }

@@ -47,7 +47,7 @@ protected:
     void SetUp() override
     {
 
-        loadList.push_back(std::make_tuple("certificate/pes.crt", "00000000"));
+        loadList.push_back(std::make_tuple("certificate/pescert.crt", "00000000"));
 
         ASSERT_EQ(authenticationDataLoader->setLoadList(loadList),
                   AuthenticationOperationResult::AUTHENTICATION_OPERATION_OK);
@@ -1183,7 +1183,7 @@ TEST_F(AuthenticationDataLoaderTest, AuthenticationDataLoaderFileNotFound)
     // Override load list
     std::vector<AuthenticationLoad> inexistentLoadList;
     inexistentLoadList.push_back(
-        std::make_tuple("certificate/inexistent_pes.crt", "00000000"));
+        std::make_tuple("certificate/inexistent_pescert.crt", "00000000"));
     authenticationDataLoader->setLoadList(inexistentLoadList);
 
     // Register server callbacks
