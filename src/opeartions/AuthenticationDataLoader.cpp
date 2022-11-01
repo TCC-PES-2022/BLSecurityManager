@@ -454,9 +454,11 @@ AuthenticationOperationResult AuthenticationDataLoader::abortTargetRequest(
     uint16_t abortSource, ITFTPSection *sectionHandler, char *filename,
     char *mode)
 {
-    if (abortSource != AUTHENTICATION_ABORT_SOURCE_NONE && toggleAbortSend)
+    AuthenticationOperationResult result = AuthenticationOperationResult::AUTHENTICATION_OPERATION_ERROR;
+    
+    if (abortSource != AUTHENTICATION_ABORT_SOURCE_NONE)
     {
-        toggleAbortSend = !toggleAbortSend;
+        result = AuthenticationOperationResult::AUTHENTICATION_OPERATION_OK;
 
         std::string lusExtension =
             std::string(LOAD_AUTHENTICATION_STATUS_FILE_EXTENSION);
@@ -464,18 +466,25 @@ AuthenticationOperationResult AuthenticationDataLoader::abortTargetRequest(
         if (std::strcmp(mode, "w") == 0 &&
             std::strstr(filename, lusExtension.c_str()) != nullptr)
         {
-
-            std::stringstream errorMessageStream;
-            errorMessageStream << AUTHENTICATION_ABORT_MSG_PREFIX;
-            errorMessageStream << AUTHENTICATION_ERROR_MSG_DELIMITER;
-            errorMessageStream << std::hex << abortSource;
-            std::string errorMessage = errorMessageStream.str();
-            sectionHandler->setErrorMessage(errorMessage);
+            toggleAbortSend = !toggleAbortSend;
+            if (toggleAbortSend)
+            {
+                std::stringstream errorMessageStream;
+                errorMessageStream << AUTHENTICATION_ABORT_MSG_PREFIX;
+                errorMessageStream << AUTHENTICATION_ERROR_MSG_DELIMITER;
+                errorMessageStream << std::hex << abortSource;
+                std::string errorMessage = errorMessageStream.str();
+                sectionHandler->setErrorMessage(errorMessage);
+            }
+            else
+            {
+                //Accept file
+                result = AuthenticationOperationResult::AUTHENTICATION_OPERATION_ERROR;
+            }
         }
-        return AuthenticationOperationResult::AUTHENTICATION_OPERATION_OK;
     }
 
-    return AuthenticationOperationResult::AUTHENTICATION_OPERATION_ERROR;
+    return result;
 }
 
 TftpServerOperationResult AuthenticationDataLoader::targetHardwareOpenFileRequest(
