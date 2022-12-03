@@ -1,7 +1,6 @@
 # BLSecurityManager
 
-This library is responsible for the transfer mechanism for the authentication
-between DataLoader and the TargetHardware
+This library is responsible for the transfer mechanism for the authentication between DataLoader and the TargetHardware. Check the [Documentation](https://tcc-pes-2022.github.io/BLSecurityManager/)
 
 This repository is part of project [ARIEL](https://github.com/TCC-PES-2022).
 
